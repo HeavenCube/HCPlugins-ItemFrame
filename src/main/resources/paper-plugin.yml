@@ -1,0 +1,21 @@
+name: HCItemFrame
+version: "${version}"
+main: fr.noltox.hcplugins.customitemframeglowing.HCItemFrame
+api-version: "26.2"
+description: Cadres invisibles avec contours RGB et profils shader HCResourcePack.
+author: Noltox
+website: https://heavencube.fr/
+permissions:
+  hcplugins.itemframe.customize:
+    description: Autorise la personnalisation des cadres invisibles personnalisés.
+    default: "false"
+dependencies:
+  server:
+    HCCore:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    packetevents:
+      load: BEFORE
+      required: true
+      join-classpath: true
