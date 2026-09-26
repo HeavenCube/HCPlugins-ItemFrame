@@ -27,9 +27,6 @@ tasks.processResources {
 }
 
 tasks.jar {
-    val buildDate = providers.gradleProperty("buildDate").orNull
-    val buildVersion = project.version.toString()
-    val fileVersion = if (buildDate == null) buildVersion else "$buildDate-b$buildVersion"
-    archiveFileName.set("HCItemFrame-$fileVersion.jar")
+    archiveFileName.set("HCItemFrame-${project.version}.jar")
 }
 tasks.test { useJUnitPlatform() }
