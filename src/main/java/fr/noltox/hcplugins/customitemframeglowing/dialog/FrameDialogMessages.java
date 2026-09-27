@@ -1,6 +1,6 @@
 package fr.noltox.hcplugins.customitemframeglowing.dialog;
 
-import fr.noltox.hcplugins.customitemframeglowing.support.MiniMessages;
+import fr.noltox.hcplugins.core.api.message.MiniMessages;
 import net.kyori.adventure.text.Component;
 import org.bukkit.configuration.file.FileConfiguration;
 

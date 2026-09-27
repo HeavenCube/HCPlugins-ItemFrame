@@ -2,7 +2,7 @@ package fr.noltox.hcplugins.customitemframeglowing;
 
 import fr.noltox.hcplugins.core.api.HCPluginsCore;
 import fr.noltox.hcplugins.core.api.command.CoreCommandRegistration;
-import fr.noltox.hcplugins.customitemframeglowing.support.BukkitYaml;
+import fr.noltox.hcplugins.core.api.config.BukkitYaml;
 import fr.noltox.hcplugins.customitemframeglowing.command.GiveInvisibleFrameCommand;
 import fr.noltox.hcplugins.customitemframeglowing.config.FrameOutlineCatalog;
 import fr.noltox.hcplugins.customitemframeglowing.dialog.FrameCustomizationDialog;

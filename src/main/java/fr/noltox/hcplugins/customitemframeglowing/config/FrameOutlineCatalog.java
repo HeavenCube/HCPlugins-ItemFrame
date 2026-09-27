@@ -1,7 +1,7 @@
 package fr.noltox.hcplugins.customitemframeglowing.config;
 
-import fr.noltox.hcglowprofiles.GlowProfiles;
-import fr.noltox.hcplugins.customitemframeglowing.support.MiniMessages;
+import fr.noltox.hcplugins.core.api.glow.GlowProfiles;
+import fr.noltox.hcplugins.core.api.message.MiniMessages;
 import fr.noltox.hcplugins.customitemframeglowing.state.CustomFrameState;
 import fr.noltox.hcplugins.customitemframeglowing.state.FrameOutline;
 import org.bukkit.configuration.ConfigurationSection;

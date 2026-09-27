@@ -1,6 +1,6 @@
 package fr.noltox.hcplugins.customitemframeglowing.item;
 
-import fr.noltox.hcplugins.customitemframeglowing.support.MiniMessages;
+import fr.noltox.hcplugins.core.api.message.MiniMessages;
 import fr.noltox.hcplugins.customitemframeglowing.config.FrameOutlineCatalog;
 import fr.noltox.hcplugins.customitemframeglowing.state.CustomFrameState;
 import fr.noltox.hcplugins.customitemframeglowing.state.FrameVariant;

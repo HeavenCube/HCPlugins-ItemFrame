@@ -1,6 +1,6 @@
 package fr.noltox.hcplugins.customitemframeglowing.config;
 
-import fr.noltox.hcplugins.customitemframeglowing.support.BukkitYaml;
+import fr.noltox.hcplugins.core.api.config.BukkitYaml;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 

@@ -11,6 +11,7 @@ dependencies {
     compileOnly("com.github.retrooper:packetevents-spigot:2.13.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
+    testImplementation("fr.noltox.hcplugins:core-api")
     testImplementation("io.papermc.paper:paper-api:26.2.build.+")
     testRuntimeOnly("org.junit.platform:junit-platform-launcher:6.1.3")
 }
