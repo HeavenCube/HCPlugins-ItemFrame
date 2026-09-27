@@ -10,6 +10,9 @@ Cloner `HCPlugins-Core` à côté de ce dépôt, puis lancer `./gradlew build`.
 HCCore et PacketEvents sont requis sur le serveur. Le resource pack des shaders
 est installé séparément via Nexo.
 
+La configuration est `plugins/HCPlugins/HCItemFrame.yml`. L'ancien fichier
+`plugins/HCItemFrame/config.yml` n'est pas repris automatiquement.
+
 À la pose, le cadre vide utilise le glow blanc natif sans `ItemDisplay`. Les
 couleurs HEX et les profils explicitement sélectionnés utilisent un proxy pour
 transmettre leur couleur exacte. Pour un cadre vide, ce proxy affiche le modèle

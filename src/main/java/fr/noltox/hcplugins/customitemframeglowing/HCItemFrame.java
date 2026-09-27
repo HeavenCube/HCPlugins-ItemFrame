@@ -3,6 +3,7 @@ package fr.noltox.hcplugins.customitemframeglowing;
 import fr.noltox.hcplugins.core.api.HCPluginsCore;
 import fr.noltox.hcplugins.core.api.command.CoreCommandRegistration;
 import fr.noltox.hcplugins.core.api.config.BukkitYaml;
+import fr.noltox.hcplugins.core.api.config.HCPluginFiles;
 import fr.noltox.hcplugins.customitemframeglowing.command.GiveInvisibleFrameCommand;
 import fr.noltox.hcplugins.customitemframeglowing.config.FrameOutlineCatalog;
 import fr.noltox.hcplugins.customitemframeglowing.dialog.FrameCustomizationDialog;
@@ -36,7 +37,7 @@ public final class HCItemFrame extends JavaPlugin {
     public void onEnable() {
         hexRenderer = new HexFrameDisplayRenderer(this);
         hexRenderer.removeOrphanedProxies();
-        configurationFile = new File(getDataFolder(), CONFIG_FILE);
+        configurationFile = HCPluginFiles.singleConfiguration(this).toFile();
         if (!reloadRuntimeComponents()) {
             throw new IllegalStateException("Impossible de charger la configuration initiale du plugin.");
         }
@@ -118,9 +119,7 @@ public final class HCItemFrame extends JavaPlugin {
     }
 
     private void ensureConfigurationFile() {
-        if (!configurationFile.exists()) {
-            saveResource(CONFIG_FILE, false);
-        }
+        HCPluginFiles.copyDefault(this, CONFIG_FILE, configurationFile.toPath());
     }
 
     /**
