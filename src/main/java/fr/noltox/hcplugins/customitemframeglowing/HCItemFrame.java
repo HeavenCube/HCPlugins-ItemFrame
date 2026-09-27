@@ -43,6 +43,8 @@ public final class HCItemFrame extends JavaPlugin {
         }
 
         GiveInvisibleFrameCommand commands = new GiveInvisibleFrameCommand(
+                this,
+                HCPluginsCore.translations(this),
                 this::itemFactory,
                 this::messages,
                 this::reloadRuntimeComponents

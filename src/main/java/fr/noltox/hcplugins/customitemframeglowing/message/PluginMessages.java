@@ -10,15 +10,12 @@ import org.bukkit.configuration.file.FileConfiguration;
  * Renders configurable messages with safe MiniMessage placeholders.
  */
 public record PluginMessages(
-        String noPermission,
         String usage,
         String playerNotFound,
         String invalidAmount,
         String amountTooLarge,
         String staffConfirmation,
         String playerReceived,
-        String reloadSuccess,
-        String reloadFailure,
         String customizeHint,
         long customizeHintCooldownMillis
 ) {
@@ -27,30 +24,24 @@ public record PluginMessages(
             "<red>La quantité maximale autorisée est de <white><amount></white> cadres.</red>";
 
     /**
-     * Preserves the original constructor for integrations instantiating the message bundle directly.
+     * Convenience constructor using the default amount limit message.
      */
     public PluginMessages(
-            String noPermission,
             String usage,
             String playerNotFound,
             String invalidAmount,
             String staffConfirmation,
             String playerReceived,
-            String reloadSuccess,
-            String reloadFailure,
             String customizeHint,
             long customizeHintCooldownMillis
     ) {
         this(
-                noPermission,
                 usage,
                 playerNotFound,
                 invalidAmount,
                 DEFAULT_AMOUNT_TOO_LARGE,
                 staffConfirmation,
                 playerReceived,
-                reloadSuccess,
-                reloadFailure,
                 customizeHint,
                 customizeHintCooldownMillis
         );
@@ -58,15 +49,12 @@ public record PluginMessages(
 
     public static PluginMessages from(FileConfiguration config) {
         return new PluginMessages(
-                required(config, "messages.no-permission"),
                 required(config, "messages.usage"),
                 required(config, "messages.player-not-found"),
                 required(config, "messages.invalid-amount"),
                 optional(config, "messages.amount-too-large", DEFAULT_AMOUNT_TOO_LARGE),
                 required(config, "messages.staff-confirmation"),
                 required(config, "messages.player-received"),
-                optional(config, "messages.reload-success", "<green>La configuration de HCItemFrame a été rechargée.</green>"),
-                optional(config, "messages.reload-failure", "<red>Impossible de recharger la configuration. Consultez la console pour le détail.</red>"),
                 optional(config, "messages.customize-hint", "<gray>Astuce : <yellow>Shift + clic gauche</yellow> sur ce cadre pour le personnaliser.</gray>"),
                 customizeHintCooldownMillis(config)
         );

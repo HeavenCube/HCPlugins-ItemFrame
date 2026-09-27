@@ -1,6 +1,7 @@
 package fr.noltox.hcplugins.customitemframeglowing.command;
 
 import fr.noltox.hcplugins.core.api.command.CoreCommand;
+import fr.noltox.hcplugins.core.api.message.CoreTranslations;
 import fr.noltox.hcplugins.customitemframeglowing.item.CustomFrameItemFactory;
 import fr.noltox.hcplugins.customitemframeglowing.message.PluginMessages;
 import io.papermc.paper.command.brigadier.CommandSourceStack;
@@ -8,6 +9,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.plugin.Plugin;
 
 import java.util.Collection;
 import java.util.List;
@@ -25,22 +27,28 @@ public final class GiveInvisibleFrameCommand implements CoreCommand {
     private final Supplier<CustomFrameItemFactory> itemFactorySupplier;
     private final Supplier<PluginMessages> messagesSupplier;
     private final BooleanSupplier configurationReloader;
+    private final Plugin plugin;
+    private final CoreTranslations translations;
 
     public GiveInvisibleFrameCommand(
+            Plugin plugin,
+            CoreTranslations translations,
             Supplier<CustomFrameItemFactory> itemFactorySupplier,
             Supplier<PluginMessages> messagesSupplier,
             BooleanSupplier configurationReloader
     ) {
+        this.plugin = plugin;
+        this.translations = translations;
         this.itemFactorySupplier = itemFactorySupplier;
         this.messagesSupplier = messagesSupplier;
         this.configurationReloader = configurationReloader;
     }
 
-    private static boolean isAuthorized(CommandSender sender, PluginMessages messages) {
+    private boolean isAuthorized(CommandSender sender) {
         if (sender.isOp()) {
             return true;
         }
-        messages.send(sender, messages.noPermission(), "", 0);
+        sender.sendMessage(translations.noPermission());
         return false;
     }
 
@@ -143,16 +151,15 @@ public final class GiveInvisibleFrameCommand implements CoreCommand {
     }
 
     private void reload(CommandSender sender) {
-        PluginMessages messages = messagesSupplier.get();
         if (!sender.isOp()) {
-            messages.send(sender, messages.noPermission(), "", 0);
+            sender.sendMessage(translations.operatorOnly());
             return;
         }
+        long started = System.nanoTime();
         if (configurationReloader.getAsBoolean()) {
-            PluginMessages reloadedMessages = messagesSupplier.get();
-            reloadedMessages.send(sender, reloadedMessages.reloadSuccess(), "", 0);
+            sender.sendMessage(translations.reloadSuccess(plugin, System.nanoTime() - started));
         } else {
-            messages.send(sender, messages.reloadFailure(), "", 0);
+            sender.sendMessage(translations.reloadFailure(plugin));
         }
     }
 
@@ -161,13 +168,13 @@ public final class GiveInvisibleFrameCommand implements CoreCommand {
         if (sender.isOp()) {
             messages.send(sender, messages.usage(), "", 0);
         } else {
-            messages.send(sender, messages.noPermission(), "", 0);
+            sender.sendMessage(translations.noPermission());
         }
     }
 
     private void give(CommandSender sender, String playerName, String rawAmount, boolean silent) {
         PluginMessages messages = messagesSupplier.get();
-        if (!isAuthorized(sender, messages)) {
+        if (!isAuthorized(sender)) {
             return;
         }
 

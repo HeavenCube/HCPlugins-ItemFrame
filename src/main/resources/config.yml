@@ -5,15 +5,12 @@ item:
     - "<dark_gray>Visible et en surbrillance lorsqu'il est vide.</dark_gray>"
 
 messages:
-  no-permission: "<red>Vous n'avez pas la permission d'utiliser cette commande.</red>"
   usage: "<red>Syntaxe : <white>/hcplugins itemframe give <joueur> [quantité] [-silent|-s]</white><gray> ou </gray><white>/hcplugins itemframe reload</white></red>"
   player-not-found: "<red>Le joueur <white><player></white> est introuvable ou hors ligne.</red>"
   invalid-amount: "<red>La quantité <white><amount></white> doit être un nombre entier strictement positif.</red>"
   amount-too-large: "<red>La quantité maximale autorisée est de <white><amount></white> cadres.</red>"
   staff-confirmation: "<green>Vous avez donné <white><amount></white> cadre(s) lumineux invisible(s) à <white><player></white>.</green>"
   player-received: "<green>Vous avez reçu <white><amount></white> cadre(s) lumineux invisible(s).</green>"
-  reload-success: "<green>La configuration de HCItemFrame a été rechargée.</green>"
-  reload-failure: "<red>Impossible de recharger la configuration. Consultez la console pour le détail.</red>"
   customize-hint: "<gray>Astuce : <yellow>Shift + clic gauche</yellow> sur ce cadre pour le personnaliser.</gray>"
   customize-hint-cooldown-seconds: 3
 
