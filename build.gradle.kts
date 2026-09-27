@@ -8,7 +8,7 @@ java { toolchain.languageVersion = JavaLanguageVersion.of(25) }
 dependencies {
     compileOnly("fr.noltox.hcplugins:core-api")
     compileOnly("io.papermc.paper:paper-api:26.2.build.+")
-    compileOnly("com.github.retrooper:packetevents-spigot:2.13.0")
+    compileOnly("com.github.retrooper:packetevents-spigot:2.14.0")
 
     testImplementation("org.junit.jupiter:junit-jupiter:6.1.3")
     testImplementation("fr.noltox.hcplugins:core-api")
