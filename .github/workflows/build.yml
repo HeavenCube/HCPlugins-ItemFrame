@@ -16,4 +16,5 @@ jobs:
       project-name: HCItemFrame
       artifact-path: build/libs/HCItemFrame-*.jar
       core-source: true
+      source-repositories: HeavenCube/HCPack-CustomGlowing
     secrets: inherit

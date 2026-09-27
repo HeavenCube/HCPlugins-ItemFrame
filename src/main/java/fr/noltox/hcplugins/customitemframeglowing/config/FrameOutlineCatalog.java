@@ -2,7 +2,6 @@ package fr.noltox.hcplugins.customitemframeglowing.config;
 
 import fr.noltox.hcplugins.core.api.glow.GlowProfiles;
 import fr.noltox.hcplugins.core.api.message.MiniMessages;
-import fr.noltox.hcplugins.customitemframeglowing.state.CustomFrameState;
 import fr.noltox.hcplugins.customitemframeglowing.state.FrameOutline;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -37,8 +36,8 @@ public final class FrameOutlineCatalog {
             }
             outlines.put(id, readOutline(configuration, section, id));
         }
-        if (!outlines.containsKey(CustomFrameState.DEFAULT_OUTLINE_ID)) {
-            throw invalid("Le contour par défaut '" + CustomFrameState.DEFAULT_OUTLINE_ID + "' est obligatoire.");
+        if (!outlines.containsKey("white")) {
+            throw invalid("Le contour 'white' est obligatoire.");
         }
         return new FrameOutlineCatalog(outlines);
     }
