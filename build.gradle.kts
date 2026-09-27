@@ -37,11 +37,9 @@ val glowPack = file(".hcplugins/HCPack-CustomGlowing").takeIf { it.isDirectory }
 val verifyGlowPackPalette = tasks.register("verifyGlowPackPalette") {
     val itemFrameConfig = file("src/main/resources/config.yml")
     val packProfiles = glowPack.resolve("assets/heavencube/shaders/include/glow_profiles.glsl")
-    require(packProfiles.isFile) {
-        "Clone HCPack-CustomGlowing next to this repository before building."
-    }
     inputs.file(itemFrameConfig)
-    inputs.file(packProfiles)
+    inputs.file(packProfiles).optional()
+    onlyIf { packProfiles.isFile }
     doLast {
         val configured = Regex("(?m)^  ([a-z-]+):\\r?\\n    button-name: .*\\r?\\n    color: \"#([0-9A-Fa-f]{6})\"")
             .findAll(itemFrameConfig.readText())
