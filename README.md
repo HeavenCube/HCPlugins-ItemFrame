@@ -2,6 +2,10 @@
 
 Plugin Paper de cadres invisibles avec contours RGB et profils de shaders.
 
+**Licence :** code source consultable et contributions bienvenues, mais usage
+réservé aux serveurs HeavenCube. Toute réutilisation ou distribution exige une
+autorisation écrite préalable. Voir [LICENSE](LICENSE).
+
 Cloner `HCPlugins-Core` à côté de ce dépôt, puis lancer `./gradlew build`.
 HCCore et PacketEvents sont requis sur le serveur. Le resource pack des shaders
 est installé séparément via Nexo.
