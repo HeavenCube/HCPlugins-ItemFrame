@@ -99,7 +99,7 @@ public final class CustomFrameService {
 
     public void updateVisualStateAfterItemChange(ItemFrame frame, ItemStack itemAfterChange) {
         CustomFrameState state = itemFactory.stateOf(frame);
-        renderer.apply(frame, state, itemAfterChange, outlineColor(state));
+        renderer.apply(frame, itemAfterChange, outlineColor(state));
     }
 
     public boolean isReplacing(UUID frameId) {
@@ -206,7 +206,7 @@ public final class CustomFrameService {
     }
 
     private void applyVisualState(ItemFrame frame, CustomFrameState state) {
-        renderer.apply(frame, state, outlineColor(state));
+        renderer.apply(frame, outlineColor(state));
     }
 
     private org.bukkit.Color outlineColor(CustomFrameState state) {

@@ -1,13 +1,13 @@
 package fr.noltox.hcplugins.customitemframeglowing.render;
 
 import fr.noltox.hcplugins.customitemframeglowing.item.CustomFrameItemFactory;
-import fr.noltox.hcplugins.customitemframeglowing.state.CustomFrameState;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Transformation;
@@ -26,10 +26,12 @@ import java.util.*;
 public final class HexFrameDisplayRenderer {
 
     private static final byte PROXY_MARKER_VALUE = 1;
-    private static final double EMPTY_PROXY_BACK_OFFSET = 0.0625D;
     private static final double CONTENT_FORWARD_OFFSET = 0.03125D;
-    private static final float EMPTY_FRAME_SCALE = 0.75F;
+    private static final float EMPTY_FRAME_SCALE = 1.0F;
     private static final float CONTENT_SCALE = 0.5F;
+    private static final NamespacedKey EMPTY_PROXY_MODEL = Objects.requireNonNull(
+            NamespacedKey.fromString("heavencube:frame_outline_proxy")
+    );
 
     private final NamespacedKey proxyMarkerKey;
     private final Map<UUID, UUID> proxyIds = new HashMap<>();
@@ -43,7 +45,7 @@ public final class HexFrameDisplayRenderer {
     private static Location proxyLocation(ItemFrame frame, boolean empty) {
         Location location = frame.getLocation().clone();
         Vector direction = frame.getFacing().getDirection();
-        location.add(direction.multiply(empty ? -EMPTY_PROXY_BACK_OFFSET : CONTENT_FORWARD_OFFSET));
+        location.add(direction.multiply(empty ? 0.0D : CONTENT_FORWARD_OFFSET));
         return location;
     }
 
@@ -77,14 +79,14 @@ public final class HexFrameDisplayRenderer {
         frame.setVisible(empty);
     }
 
-    public void apply(ItemFrame frame, CustomFrameState state, Color outlineColor) {
-        apply(frame, state, frame.getItem(), outlineColor);
+    public void apply(ItemFrame frame, Color outlineColor) {
+        apply(frame, frame.getItem(), outlineColor);
     }
 
     /**
      * Applies the post-change item when Paper has not yet committed the item-frame event.
      */
-    public void apply(ItemFrame frame, CustomFrameState state, ItemStack displayedItem, Color outlineColor) {
+    public void apply(ItemFrame frame, ItemStack displayedItem, Color outlineColor) {
         ItemStack item = displayedItem == null ? new ItemStack(org.bukkit.Material.AIR) : displayedItem;
         if (outlineColor == null) {
             removeProxy(frame.getUniqueId());
@@ -95,7 +97,7 @@ public final class HexFrameDisplayRenderer {
 
         boolean empty = item.isEmpty();
         ItemDisplay proxy = proxy(frame);
-        configureProxy(proxy, frame, state, item, empty, outlineColor);
+        configureProxy(proxy, frame, item, empty, outlineColor);
         frame.setGlowing(false);
         frame.setVisible(empty);
         if (empty) {
@@ -222,13 +224,12 @@ public final class HexFrameDisplayRenderer {
     private void configureProxy(
             ItemDisplay proxy,
             ItemFrame frame,
-            CustomFrameState state,
             ItemStack displayedItem,
             boolean empty,
             Color color
     ) {
         ItemStack visualItem = empty
-                ? new ItemStack(state.variant().material())
+                ? emptyFrameOutlineItem()
                 : displayedItem.clone();
         proxy.setItemStack(visualItem);
         proxy.setTransformation(transformation(
@@ -238,6 +239,18 @@ public final class HexFrameDisplayRenderer {
         proxy.teleport(proxyLocation(frame, empty));
         proxy.setGlowColorOverride(color);
         proxy.setGlowing(true);
+    }
+
+    private static ItemStack emptyFrameOutlineItem() {
+        // The pack's almost transparent model has the real frame's 12x12 outline.
+        // Its nonzero alpha keeps the outline shader active without drawing a second frame.
+        ItemStack item = new ItemStack(Material.PAPER);
+        ItemMeta meta = item.getItemMeta();
+        meta.setItemModel(EMPTY_PROXY_MODEL);
+        if (!item.setItemMeta(meta)) {
+            throw new IllegalStateException("Impossible d'appliquer le modèle du contour au proxy.");
+        }
+        return item;
     }
 
     private void removeProxy(UUID frameId) {

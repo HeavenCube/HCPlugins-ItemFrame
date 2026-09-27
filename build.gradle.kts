@@ -34,13 +34,28 @@ tasks.test { useJUnitPlatform() }
 
 val glowPack = file(".hcplugins/HCPack-CustomGlowing").takeIf { it.isDirectory }
     ?: file("../HCPack-CustomGlowing")
-val verifyGlowPackPalette = tasks.register("verifyGlowPackPalette") {
+val verifyGlowPackContract = tasks.register("verifyGlowPackContract") {
     val itemFrameConfig = file("src/main/resources/config.yml")
     val packProfiles = glowPack.resolve("assets/heavencube/shaders/include/glow_profiles.glsl")
+    val proxyDefinition = glowPack.resolve("assets/heavencube/items/frame_outline_proxy.json")
+    val proxyModel = glowPack.resolve("assets/heavencube/models/item/frame_outline_proxy.json")
+    val proxyTexture = glowPack.resolve("assets/heavencube/textures/item/frame_outline_proxy.png")
     inputs.file(itemFrameConfig)
     inputs.file(packProfiles).optional()
+    inputs.file(proxyDefinition).optional()
+    inputs.file(proxyModel).optional()
+    inputs.file(proxyTexture).optional()
     onlyIf { packProfiles.isFile }
     doLast {
+        check(proxyDefinition.isFile && proxyModel.isFile && proxyTexture.isFile) {
+            "HCPack-CustomGlowing must provide the transparent ItemFrame outline proxy model."
+        }
+        val texture = checkNotNull(javax.imageio.ImageIO.read(proxyTexture)) {
+            "The ItemFrame outline proxy texture must be a valid PNG."
+        }
+        check(texture.width == 1 && texture.height == 1 && texture.getRGB(0, 0).ushr(24) == 1) {
+            "The ItemFrame outline proxy texture must contain one nearly transparent pixel."
+        }
         val configured = Regex("(?m)^  ([a-z-]+):\\r?\\n    button-name: .*\\r?\\n    color: \"#([0-9A-Fa-f]{6})\"")
             .findAll(itemFrameConfig.readText())
             .associate { it.groupValues[1] to it.groupValues[2].uppercase() }
@@ -56,4 +71,4 @@ val verifyGlowPackPalette = tasks.register("verifyGlowPackPalette") {
         }
     }
 }
-tasks.named("check") { dependsOn(verifyGlowPackPalette) }
+tasks.named("check") { dependsOn(verifyGlowPackContract) }
