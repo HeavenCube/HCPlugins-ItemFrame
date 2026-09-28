@@ -22,3 +22,11 @@ derrière. Mettre à jour le pack Nexo avant le plugin pour fournir ce modèle.
 
 Si `HCPack-CustomGlowing` est aussi cloné à côté, le build vérifie les 16
 couleurs de `config.yml` et la présence du modèle et de sa texture.
+
+## Maintenance et documentation technique
+
+HCCore est obligatoire. Pour toute modification technique, commencer par [AGENTS.md](AGENTS.md),
+puis [le guide du plugin](docs/TECHNICAL.md) et le Core voisin.
+Le [guide commun](https://github.com/HeavenCube/HCPlugins-Core/blob/main/docs/ECOSYSTEM.md) décrit les conventions de toute la suite.
+`CLAUDE.md` et `GEMINI.md` renvoient aux mêmes instructions, sans copie des règles.
+Le catalogue commun `plugins/HCPlugins/translations.yml` se recharge par `/hcplugins core reload`.
