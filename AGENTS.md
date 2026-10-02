@@ -25,7 +25,7 @@ consulter [son guide](https://github.com/HeavenCube/HCPlugins-Core/blob/main/doc
 ## Invariants propres à ce dépôt
 
 - Plugin serveur `HCItemFrame`, HCCore obligatoire ; module `itemframe`.
-- HCCore et PacketEvents obligatoires. HCPack-CustomGlowing installé séparément via Nexo pour les profils et le modèle de contour.
+- HCCore et PacketEvents obligatoires. HCPack-CustomAssets installé séparément via Nexo pour les profils et le modèle de contour.
 - Ne pas supprimer le proxy pour les couleurs en affirmant que les équipes vanilla transmettent un HEX arbitraire ; le contrat actuel exige ce proxy.
 - Préserver identité PDC, IDs historiques des colorants, drops canoniques, disparition du cadre rempli et rotations vanilla.
 - Traiter murs, plafond et sol, avant/arrière, item inséré/enlevé et changement de variante comme cas distincts de rendu.

@@ -9,9 +9,9 @@ le packaging et la CI. Ce guide local décrit les particularités à préserver 
 
 ## Dépendances et compilation
 
-HCCore et PacketEvents obligatoires. HCPack-CustomGlowing installé séparément via Nexo pour les profils et le modèle de contour.
+HCCore et PacketEvents obligatoires. HCPack-CustomAssets installé séparément via Nexo pour les profils et le modèle de contour.
 
-Cloner Core à côté ; JAR standard. Cloner aussi HCPack-CustomGlowing pour activer `verifyGlowPackContract` (facultatif au build, utile pour un changement de couleur/modèle).
+Cloner Core à côté ; JAR standard. Cloner aussi HCPack-CustomAssets pour activer `verifyGlowPackContract` (facultatif au build, utile pour un changement de couleur/modèle).
 
 ```powershell
 .\gradlew.bat build
@@ -65,7 +65,7 @@ maintient les dépendances. Une mise à jour de dépendance doit conserver ces c
 ## Invariants et zones à risque
 
 - Plugin serveur `HCItemFrame`, HCCore obligatoire ; module `itemframe`.
-- HCCore et PacketEvents obligatoires. HCPack-CustomGlowing installé séparément via Nexo pour les profils et le modèle de contour.
+- HCCore et PacketEvents obligatoires. HCPack-CustomAssets installé séparément via Nexo pour les profils et le modèle de contour.
 - Ne pas supprimer le proxy pour les couleurs en affirmant que les équipes vanilla transmettent un HEX arbitraire ; le contrat actuel exige ce proxy.
 - Préserver identité PDC, IDs historiques des colorants, drops canoniques, disparition du cadre rempli et rotations vanilla.
 - Traiter murs, plafond et sol, avant/arrière, item inséré/enlevé et changement de variante comme cas distincts de rendu.

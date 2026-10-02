@@ -32,8 +32,8 @@ tasks.jar {
 }
 tasks.test { useJUnitPlatform() }
 
-val glowPack = file(".hcplugins/HCPack-CustomGlowing").takeIf { it.isDirectory }
-    ?: file("../HCPack-CustomGlowing")
+val glowPack = file(".hcplugins/HCPack-CustomAssets").takeIf { it.isDirectory }
+    ?: file("../HCPack-CustomAssets")
 val verifyGlowPackContract = tasks.register("verifyGlowPackContract") {
     val itemFrameConfig = file("src/main/resources/config.yml")
     val packProfiles = glowPack.resolve("assets/heavencube/shaders/include/glow_profiles.glsl")
@@ -48,7 +48,7 @@ val verifyGlowPackContract = tasks.register("verifyGlowPackContract") {
     onlyIf { packProfiles.isFile }
     doLast {
         check(proxyDefinition.isFile && proxyModel.isFile && proxyTexture.isFile) {
-            "HCPack-CustomGlowing must provide the transparent ItemFrame outline proxy model."
+            "HCPack-CustomAssets must provide the transparent ItemFrame outline proxy model."
         }
         val texture = checkNotNull(javax.imageio.ImageIO.read(proxyTexture)) {
             "The ItemFrame outline proxy texture must be a valid PNG."
@@ -66,7 +66,7 @@ val verifyGlowPackContract = tasks.register("verifyGlowPackContract") {
             .findAll(packProfiles.readText())
             .associate { it.groupValues[2] to it.groupValues[1].uppercase() }
         check(configured.size == 16 && configured == shader && shader == shaderOutput) {
-            "HCItemFrame dye HEX values must match the 16 HCPack-CustomGlowing shader carriers. " +
+            "HCItemFrame dye HEX values must match the 16 HCPack-CustomAssets shader carriers. " +
                 "Configured: $configured; pack carriers: $shader; pack output: $shaderOutput"
         }
     }

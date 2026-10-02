@@ -20,14 +20,14 @@ quasi transparent `heavencube:frame_outline_proxy` du pack : son contour mesure
 12 × 12 pixels comme le cadre vanilla, sans seconde icône visible devant ou
 derrière. Mettre à jour le pack Nexo avant le plugin pour fournir ce modèle.
 
-Si `HCPack-CustomGlowing` est aussi cloné à côté, le build vérifie les 16
+Si `HCPack-CustomAssets` est aussi cloné à côté, le build vérifie les 16
 couleurs de `config.yml` et la présence du modèle et de sa texture.
 
 ## Liens importants
 
 - [HCPlugins-Core](https://github.com/HeavenCube/HCPlugins-Core) : HCCore, services communs et guide de création des plugins.
 - [HCPlugins-actions](https://github.com/HeavenCube/HCPlugins-actions) : workflows GitHub Actions partagés.
-- [HCPack-CustomGlowing](https://github.com/HeavenCube/HCPack-CustomGlowing) : resource pack Nexo des shaders de glow custom.
+- [HCPack-CustomAssets](https://github.com/HeavenCube/HCPack-CustomAssets) : resource pack Nexo 26.3 : glow, police et effets de texte.
 - [HCPlugins-AdvancementsRedirect](https://github.com/HeavenCube/HCPlugins-AdvancementsRedirect)
 - [HCPlugins-Glowing](https://github.com/HeavenCube/HCPlugins-Glowing)
 - [HCPlugins-HuskHomesGUI](https://github.com/HeavenCube/HCPlugins-HuskHomesGUI)
