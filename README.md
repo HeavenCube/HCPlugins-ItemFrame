@@ -23,6 +23,18 @@ derrière. Mettre à jour le pack Nexo avant le plugin pour fournir ce modèle.
 Si `HCPack-CustomGlowing` est aussi cloné à côté, le build vérifie les 16
 couleurs de `config.yml` et la présence du modèle et de sa texture.
 
+## Liens importants
+
+- [HCPlugins-Core](https://github.com/HeavenCube/HCPlugins-Core) : HCCore, services communs et guide de création des plugins.
+- [HCPlugins-actions](https://github.com/HeavenCube/HCPlugins-actions) : workflows GitHub Actions partagés.
+- [HCPack-CustomGlowing](https://github.com/HeavenCube/HCPack-CustomGlowing) : resource pack Nexo des shaders de glow custom.
+- [HCPlugins-AdvancementsRedirect](https://github.com/HeavenCube/HCPlugins-AdvancementsRedirect)
+- [HCPlugins-Glowing](https://github.com/HeavenCube/HCPlugins-Glowing)
+- [HCPlugins-HuskHomesGUI](https://github.com/HeavenCube/HCPlugins-HuskHomesGUI)
+- [HCPlugins-ItemFrame](https://github.com/HeavenCube/HCPlugins-ItemFrame)
+- [HCPlugins-JoinMessage](https://github.com/HeavenCube/HCPlugins-JoinMessage)
+- [HCPlugins-PlaceholdersExtra](https://github.com/HeavenCube/HCPlugins-PlaceholdersExtra)
+
 ## Maintenance et documentation technique
 
 HCCore est obligatoire. Pour toute modification technique, commencer par [AGENTS.md](AGENTS.md),
