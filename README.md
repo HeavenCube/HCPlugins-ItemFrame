@@ -1,5 +1,8 @@
 # HCPlugins-ItemFrame
 
+**CI :** sources/ressources/build seulement ; docs seules sans runner. Pour les exceptions,
+voir [la politique CI et les marqueurs de skip](https://github.com/HeavenCube/HCPlugins-actions/blob/main/docs/CI_COSTS.md).
+
 Plugin Paper de cadres invisibles avec contours RGB et profils de shaders.
 
 **Licence :** code source consultable et contributions bienvenues, mais usage
