@@ -109,7 +109,8 @@ public final class HCItemFrame extends JavaPlugin {
                     itemFactory,
                     messages,
                     listener,
-                    protectionListener
+                    protectionListener,
+                    frameService
             );
 
             replaceRuntimeComponents(reloadedComponents);
@@ -181,7 +182,8 @@ public final class HCItemFrame extends JavaPlugin {
             CustomFrameItemFactory itemFactory,
             PluginMessages messages,
             InvisibleFrameListener invisibleFrameListener,
-            CustomFrameItemProtectionListener itemProtectionListener
+            CustomFrameItemProtectionListener itemProtectionListener,
+            CustomFrameService frameService
     ) {
 
         private void register(JavaPlugin plugin) {
@@ -196,6 +198,7 @@ public final class HCItemFrame extends JavaPlugin {
 
         private void shutdown() {
             invisibleFrameListener.shutdown();
+            frameService.shutdown();
         }
     }
 }

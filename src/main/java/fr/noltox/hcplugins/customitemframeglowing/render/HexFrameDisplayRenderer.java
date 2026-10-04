@@ -1,13 +1,13 @@
 package fr.noltox.hcplugins.customitemframeglowing.render;
 
 import fr.noltox.hcplugins.customitemframeglowing.item.CustomFrameItemFactory;
+import io.papermc.paper.datacomponent.DataComponentTypes;
 import org.bukkit.*;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.ItemDisplay;
 import org.bukkit.entity.ItemFrame;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataType;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Transformation;
@@ -245,11 +245,7 @@ public final class HexFrameDisplayRenderer {
         // The pack's almost transparent model has the real frame's 12x12 outline.
         // Its nonzero alpha keeps the outline shader active without drawing a second frame.
         ItemStack item = new ItemStack(Material.PAPER);
-        ItemMeta meta = item.getItemMeta();
-        meta.setItemModel(EMPTY_PROXY_MODEL);
-        if (!item.setItemMeta(meta)) {
-            throw new IllegalStateException("Impossible d'appliquer le modèle du contour au proxy.");
-        }
+        item.setData(DataComponentTypes.ITEM_MODEL, EMPTY_PROXY_MODEL);
         return item;
     }
 

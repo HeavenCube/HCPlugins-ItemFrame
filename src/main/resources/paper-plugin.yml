@@ -1,7 +1,7 @@
 name: HCItemFrame
 version: "${version}"
 main: fr.noltox.hcplugins.customitemframeglowing.HCItemFrame
-api-version: "26.2"
+api-version: "26.3"
 description: Cadres invisibles avec contours RGB et profils shader HCResourcePack.
 author: Noltox
 website: https://heavencube.fr/

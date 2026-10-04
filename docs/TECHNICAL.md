@@ -2,6 +2,9 @@
 
 ## Point d’entrée
 
+Cible : Paper 26.3 (`26.3.build.+`), Java 25 sans preview. Compilation avec `-Xlint:all` ;
+examiner les warnings avant de les attribuer au plugin ou à une dépendance.
+
 Ce dépôt appartient à la suite privée d’usage HeavenCube, publiée comme source consultable.
 Il dépend obligatoirement de HCCore. Lire d’abord [AGENTS.md](../AGENTS.md), puis le Core voisin.
 Le [guide commun](https://github.com/HeavenCube/HCPlugins-Core/blob/main/docs/ECOSYSTEM.md) décrit les règles Java/Paper, les contrats Core,
@@ -79,6 +82,10 @@ un loader YAML, un registre de commandes ou un catalogue de traductions. Garder 
 thread réel, puis revalider le contexte avant mutation.
 
 ## Validation et limites
+
+Le proxy vide utilise le Data Component public `ITEM_MODEL`. Après remplacement de variante,
+la synchronisation différée relit le PDC courant ; un service arrêté ne recrée pas de proxy.
+Les ID/modèles, HEX, transformations et drops existants sont conservés.
 
 Lire les tests existants de catalogue/état/rendu avant modification. `verifyGlowPackContract` vérifie 16 HEX et les assets du proxy uniquement si le pack est trouvé. En jeu : toutes orientations, rotation, deux faces, vide/rempli, retrait/drops, chunk reload, restart et refus de permission.
 

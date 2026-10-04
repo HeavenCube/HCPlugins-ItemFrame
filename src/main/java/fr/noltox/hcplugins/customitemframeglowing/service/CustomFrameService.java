@@ -31,6 +31,7 @@ public final class CustomFrameService {
     private final HexFrameDisplayRenderer renderer;
     private final FrameOutlineCatalog outlineCatalog;
     private final Set<UUID> replacingFrames = new HashSet<>();
+    private boolean active = true;
 
     public CustomFrameService(
             Plugin plugin,
@@ -118,6 +119,11 @@ public final class CustomFrameService {
         return renderer.detachRemovedProxy(display);
     }
 
+    public void shutdown() {
+        active = false;
+        replacingFrames.clear();
+    }
+
     private ItemFrame replaceVariant(
             ItemFrame frame,
             CustomFrameState targetState,
@@ -157,8 +163,9 @@ public final class CustomFrameService {
             ItemFrame committedReplacement = replacement;
             Bukkit.getScheduler().runTask(plugin, () -> {
                 replacingFrames.remove(previousId);
-                if (committedReplacement.isValid()) {
-                    applyVisualState(committedReplacement, targetState);
+                if (active && plugin.isEnabled() && committedReplacement.isValid()) {
+                    // A dialog may have changed the state again before this task runs.
+                    synchronize(committedReplacement);
                 }
             });
             cleanupScheduled = true;
