@@ -4,6 +4,7 @@ import fr.noltox.hcplugins.customitemframeglowing.dialog.FrameCustomizationDialo
 import fr.noltox.hcplugins.customitemframeglowing.item.CustomFrameItemFactory;
 import fr.noltox.hcplugins.customitemframeglowing.message.PluginMessages;
 import fr.noltox.hcplugins.customitemframeglowing.service.CustomFrameService;
+import fr.noltox.hcplugins.core.api.task.DeferredUpdates;
 import io.papermc.paper.event.player.PlayerItemFrameChangeEvent;
 import org.bukkit.*;
 import org.bukkit.entity.*;
@@ -35,6 +36,7 @@ public final class InvisibleFrameListener implements Listener {
     private final PluginMessages messages;
     private final Set<DialogTarget> openingDialogs = new HashSet<>();
     private final Map<UUID, Long> lastCustomizeHints = new HashMap<>();
+    private final DeferredUpdates<UUID> frameUpdates;
     private boolean active = true;
 
     public InvisibleFrameListener(
@@ -49,6 +51,15 @@ public final class InvisibleFrameListener implements Listener {
         this.frameService = frameService;
         this.customizationDialog = customizationDialog;
         this.messages = messages;
+        frameUpdates = new DeferredUpdates<>(plugin, frameId -> {
+            if (!active) {
+                return;
+            }
+            Entity entity = Bukkit.getEntity(frameId);
+            if (entity instanceof ItemFrame frame && frame.isValid() && itemFactory.isCustom(frame)) {
+                frameService.synchronize(frame);
+            }
+        });
     }
 
     private static boolean shouldDropItems(HangingBreakEvent event, ItemFrame frame) {
@@ -73,6 +84,7 @@ public final class InvisibleFrameListener implements Listener {
 
     public void shutdown() {
         active = false;
+        frameUpdates.close();
         customizationDialog.shutdown();
         openingDialogs.clear();
         lastCustomizeHints.clear();
@@ -114,11 +126,7 @@ public final class InvisibleFrameListener implements Listener {
         }
 
         if (event.getAction() == PlayerItemFrameChangeEvent.ItemFrameChangeAction.ROTATE) {
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                if (active && frame.isValid() && itemFactory.isCustom(frame)) {
-                    frameService.updateVisualStateAfterItemChange(frame);
-                }
-            });
+            frameUpdates.request(frame.getUniqueId());
             return;
         }
 
@@ -195,15 +203,7 @@ public final class InvisibleFrameListener implements Listener {
         }
         UUID ownerId = frameService.detachRemovedProxy(removedDisplay);
         if (ownerId != null) {
-            Bukkit.getScheduler().runTask(plugin, () -> {
-                if (!active) {
-                    return;
-                }
-                Entity owner = Bukkit.getEntity(ownerId);
-                if (owner instanceof ItemFrame frame && frame.isValid() && itemFactory.isCustom(frame)) {
-                    frameService.synchronize(frame);
-                }
-            });
+            frameUpdates.request(ownerId);
         }
     }
 
@@ -226,12 +226,15 @@ public final class InvisibleFrameListener implements Listener {
     }
 
     private void sendCustomizeHint(Player player) {
-        if (player == null || !player.hasPermission(FrameCustomizationDialog.PERMISSION)) {
+        if (player == null) {
             return;
         }
         long now = System.currentTimeMillis();
         Long previous = lastCustomizeHints.get(player.getUniqueId());
         if (previous != null && now - previous < messages.customizeHintCooldownMillis()) {
+            return;
+        }
+        if (!player.hasPermission(FrameCustomizationDialog.PERMISSION)) {
             return;
         }
         lastCustomizeHints.put(player.getUniqueId(), now);

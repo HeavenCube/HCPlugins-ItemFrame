@@ -67,6 +67,12 @@ maintient les dépendances. Une mise à jour de dépendance doit conserver ces c
 
 ## Invariants et zones à risque
 
+- Audit performance : `FrameProxyIndex` garde les deux directions UUID cohérentes sur
+  remplacement/retrait/clear. Rotations et réparations sont regroupées via
+  `DeferredUpdates<UUID>` du Core, fermé avec la génération. ADD/REMOVE restent immédiats.
+  Ne pas supprimer les scans typés du bootstrap : les entités déjà chargées ne rejouent pas
+  `EntitiesLoadEvent`. [Rapport global](https://github.com/HeavenCube/HCPlugins-Core/blob/main/docs/PERFORMANCE_AUDIT.md).
+
 - Plugin serveur `HCItemFrame`, HCCore obligatoire ; module `itemframe`.
 - HCCore et PacketEvents obligatoires. HCPack-CustomAssets installé séparément via Nexo pour les profils et le modèle de contour.
 - Ne pas supprimer le proxy pour les couleurs en affirmant que les équipes vanilla transmettent un HEX arbitraire ; le contrat actuel exige ce proxy.

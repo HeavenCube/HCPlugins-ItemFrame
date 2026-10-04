@@ -34,7 +34,7 @@ public final class HexFrameDisplayRenderer {
     );
 
     private final NamespacedKey proxyMarkerKey;
-    private final Map<UUID, UUID> proxyIds = new HashMap<>();
+    private final FrameProxyIndex proxyIds = new FrameProxyIndex();
     private final FrameItemMetadataMasker itemMasker = new FrameItemMetadataMasker();
 
     public HexFrameDisplayRenderer(Plugin plugin) {
@@ -43,9 +43,11 @@ public final class HexFrameDisplayRenderer {
     }
 
     private static Location proxyLocation(ItemFrame frame, boolean empty) {
-        Location location = frame.getLocation().clone();
-        Vector direction = frame.getFacing().getDirection();
-        location.add(direction.multiply(empty ? 0.0D : CONTENT_FORWARD_OFFSET));
+        Location location = frame.getLocation();
+        if (!empty) {
+            Vector direction = frame.getFacing().getDirection();
+            location.add(direction.multiply(CONTENT_FORWARD_OFFSET));
+        }
         return location;
     }
 
@@ -122,7 +124,7 @@ public final class HexFrameDisplayRenderer {
         if (!(entity instanceof ItemDisplay display) || !isProxy(display)) {
             return false;
         }
-        proxyIds.values().removeIf(display.getUniqueId()::equals);
+        proxyIds.removeProxy(display.getUniqueId());
         display.remove();
         return true;
     }
@@ -134,16 +136,7 @@ public final class HexFrameDisplayRenderer {
         if (!isProxy(display)) {
             return null;
         }
-        UUID removedId = display.getUniqueId();
-        Iterator<Map.Entry<UUID, UUID>> iterator = proxyIds.entrySet().iterator();
-        while (iterator.hasNext()) {
-            Map.Entry<UUID, UUID> entry = iterator.next();
-            if (entry.getValue().equals(removedId)) {
-                iterator.remove();
-                return entry.getKey();
-            }
-        }
-        return null;
+        return proxyIds.removeProxy(display.getUniqueId());
     }
 
     /**
@@ -188,13 +181,13 @@ public final class HexFrameDisplayRenderer {
 
     private ItemDisplay proxy(ItemFrame frame) {
         UUID frameId = frame.getUniqueId();
-        UUID proxyId = proxyIds.get(frameId);
+        UUID proxyId = proxyIds.proxy(frameId);
         if (proxyId != null) {
             Entity existing = Bukkit.getEntity(proxyId);
             if (existing instanceof ItemDisplay display && display.isValid()) {
                 return display;
             }
-            proxyIds.remove(frameId);
+            proxyIds.removeFrame(frameId);
         }
 
         Entity spawned = frame.getWorld().spawnEntity(frame.getLocation(), EntityType.ITEM_DISPLAY);
@@ -250,7 +243,7 @@ public final class HexFrameDisplayRenderer {
     }
 
     private void removeProxy(UUID frameId) {
-        UUID proxyId = proxyIds.remove(frameId);
+        UUID proxyId = proxyIds.removeFrame(frameId);
         if (proxyId == null) {
             return;
         }
